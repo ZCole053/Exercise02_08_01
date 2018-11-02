@@ -3,28 +3,30 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>MySQLInfo</title>
+    <title>Select Database</title>
     <script src="modernizr.custom.65897.js"></script>
 </head>
 
 <body>
-    <h2>MySql Database Server Information</h2>
+    <h2>Select Database</h2>
     <?php
     //shows version that we are currently in
-    echo "<p>MySQL Client Version: ". mysqli_get_client_info() . "</p>\n";
     $hostName = "localhost";
     $userName = "adminer";
     $password = "doubt-drink-37";
+    $DBName = "newsletter1";
     //hold conection information we are trying to establish
     $DBConnect = mysqli_connect($hostName, $userName, $password);
     if(!$DBConnect){
-        echo "<p>Connection failed.</p>\n";
+        echo "<p>Connection error:". mysqli_connect_error(). ".</p>\n";
     }else{
-        echo "<p>MySQL connection: ". mysqli_get_host_info($DBConnect). "<p/>\n";
-        echo "<p>MySQL protocol version: ". mysqli_get_proto_info($DBConnect). "<p/>\n";
-        echo "<p>MySQL server version: ". mysqli_get_server_info($DBConnect). "<p/>\n";
+        //testing the select
+        if(mysqli_select_db($DBConnect, $DBName)){
+            echo "<p>Successfuly selected the \"$DBName\"". "database.</p>\n";//debug
+        }else{
+            echo "<p>Could not select the \"$DBName\"". "database: ". mysqli_error($DBConnect) . "</p>\n";
+        }
         echo "<p>Closing Database Connection.</p>\n";
-        //closes similar to fie handlers
         mysqli_close($DBConnect);
     }
     ?>

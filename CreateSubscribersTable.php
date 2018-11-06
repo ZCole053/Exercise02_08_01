@@ -31,7 +31,7 @@
             //returns back the number of rows
             if(mysqli_num_rows($result) == 0){
                 echo "<p>The <strong>$tableName</strong>". " table does not exist, creating table.</p>\n";//debug
-                                                    //primary key 2 BYTES
+                   //creating the tables             //primary key 2 BYTES
                 $sql = "CREATE TABLE $tableName". " (subscriberID SMALLINT NOT NULL". " AUTO_INCREMENT PRIMARY KEY," ."  
                 name VARCHAR(80), email VARCHAR(100),". 
                 " subscribeDate DATE, confirmedDate DATE)";

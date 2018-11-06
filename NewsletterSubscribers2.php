@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Create Subscribers Table</title>
+    <title>Newsletter Subscribers2</title>
     <script src="modernizr.custom.65897.js"></script>
 </head>
 
 <body>
-    <h2>Create Subscribers Table</h2>
+    <h2>Newsletter Subscribers 2</h2>
     <?php
     //shows version that we are currently in
     $hostName = "localhost";
@@ -39,13 +39,11 @@
             echo "<th>Subscriber Confirm</th>";
             echo "<tr>";
             //explodes into indexed array
-            while($row = mysqli_fetch_row($result)){
+            while($row = mysqli_fetch_assoc($result)){
                 echo "<tr>";
-                echo "<td>{$row[0]}</td>";
-                echo "<td>{$row[1]}</td>";
-                echo "<td>{$row[2]}</td>";
-                echo "<td>{$row[3]}</td>";
-                echo "<td>{$row[4]}</td>";
+                foreach ($row as $field) {
+                    echo "<td>{$field}</td>";
+                }
                 echo "</tr>\n";
             }
             echo "</table>";

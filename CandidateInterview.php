@@ -24,7 +24,7 @@
         if($selected){
             echo "<p>The database was successfully selected.</p>\n";
         }else{
-            echo "<p>Could not select database, attempting to create database.</p>\n";
+            echo "<p>Could not select database, attempting to create database now.</p>\n";
             $sql = "CREATE DATABASE $DBName";
             if(mysqli_query($DBConnect,$sql)){
                 echo "<p>Succesfully created the database.</p>\n";
@@ -43,7 +43,9 @@
         $sql =  "SHOW TABLES LIKE '$tablename'";
         $result = mysqli_query($DBConnect,$sql);
         if(mysqli_num_rows($result) === 0){
-
+            echo "<p>The table does not exist, attempting to create table now.</p>\n";
+            $sql = "CREATE TABLE $tablename(countID SMALLINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+              interviewername VARCHAR(40), position VARCHAR(40), interviewDate SMALLINT, )";
         }
     }
 
@@ -72,7 +74,7 @@
 
     //Main function
     function main(){
-        if(isset($_POST['Submit'])){
+        if(isset($_POST['submit'])){
             echo "So far so good";//debug
         }
     }
@@ -89,11 +91,11 @@ main();
     <p><strong>Position: </strong><br>
     <input type="text" name="position" value="<?php echo $position; ?>"></p>
     <p><strong>Interview date: </strong><br>
-    <input type="text" name="intvDate" value="<?php echo $intvDate; ?>"></p>
+    <input type="number" name="intvDate" value="<?php echo $intvDate; ?>"></p>
     </form>
     <hr>
     <h2>Candidate Info</h2>
-    <p>When doing the communication abilities, professional apperance,or business knowledge base data input</p>
+    <p>When doing the communication abilities, professional apperance, computer skills, or business knowledge base data input</p>
     <p>on a scale of 1-10. 1=Terrible 10=Excellent</p>
     <form action="CandidateInterview.php" method="post">
     <p><strong>First Name:</strong><br>

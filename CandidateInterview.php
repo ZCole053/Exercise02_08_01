@@ -104,6 +104,8 @@
             $cSkils = trim($cSkils);//end of input8
             $bKnowledge = stripslashes($_POST['bKnowledge']);
             $bKnowledge = trim($bKnowledge);//end of input9
+            $comments = stripslashes($_POST['comment']);
+            $comments = trim($comments);//end of input9
             if(empty($intvName) || empty($position) || empty($intvDate) || empty($firstcName) ||
             empty($LastName) || empty($cAbility) || empty($pApperance) || empty($cSkils) ||
             empty($bKnowledge)){
@@ -114,7 +116,16 @@
                 if($DBConnect){
                     if(selectDB($DBConnect,$DBName)){
                         if(tablecreate($DBConnect,$DBName)){
-                            echo "Everything is working right";
+                            echo "Connections successful";
+                            $sql = "INSERT INTO $tablename VALUES(
+                            NULL ,'$intvName','$position',$intvDate',$firstcName',$LastName',
+                            $cAbility',$pApperance',$cSkils',$bKnowledge',)";
+                            $result = mysqli_query($DBConnect,$sql);
+                            if($result === false){
+                                echo "<p>The query has failed.</p>";
+                            }else{
+                                
+                            }
                         }
                     }
                     mysqli_close($DBConnect);

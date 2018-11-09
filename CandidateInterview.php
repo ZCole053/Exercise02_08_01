@@ -45,8 +45,18 @@
         if(mysqli_num_rows($result) === 0){
             echo "<p>The table does not exist, attempting to create table now.</p>\n";
             $sql = "CREATE TABLE $tablename(countID SMALLINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-              interviewername VARCHAR(40), position VARCHAR(40), interviewDate SMALLINT, )";
+              interviewername VARCHAR(40), position VARCHAR(40), interviewDate SMALLINT, cFirstName SMALLINT,
+               lastName SMALLINT, cAbility SMALLINT, proApperance SMALLINT , skills SMALLINT, 
+               bisKnowledge SMALLINT, comments VARCHAR(40))";
+               $result = mysqli_query($DBConnect,$sql);
+               if($result === false){
+                $selected = false;
+                echo "<p>Unable to create the table $tablename.</p>";
+               }
+        }else{
+            $selected = true;
         }
+        return $selected;
     }
 
 
@@ -69,17 +79,49 @@
     $pApperance = "";
     $cSkils = "";
     $bKnowledge = "";
+    $comments = "";
     $showForm = true;
     $formErrorCount = 0;
 
-    //Main function
-    function main(){
+    //Main Code Block
         if(isset($_POST['submit'])){
-            echo "So far so good";//debug
+            //cleaning input
+            $intvName = stripslashes($_POST['intvName']);
+            $intvName = trim($intvName);//end of input1
+            $position = stripslashes($_POST['position']);
+            $position = trim($position);//end of input2
+            $intvDate = stripslashes($_POST['intvDate']);
+            $intvDate = trim($intvDate);//end of input3
+            $firstcName = stripslashes($_POST['firstcName']);
+            $firstcName = trim($firstcName);//end of input4
+            $LastName = stripslashes($_POST['LastName']);
+            $LastName = trim($LastName);//end of input5
+            $cAbility = stripslashes($_POST['cAbility']);
+            $cAbility = trim($cAbility);//end of input6
+            $pApperance = stripslashes($_POST['pApperance']);
+            $pApperance = trim($pApperance);//end of input7
+            $cSkils = stripslashes($_POST['cSkils']);
+            $cSkils = trim($cSkils);//end of input8
+            $bKnowledge = stripslashes($_POST['bKnowledge']);
+            $bKnowledge = trim($bKnowledge);//end of input9
+            if(empty($intvName) || empty($position) || empty($intvDate) || empty($firstcName) ||
+            empty($LastName) || empty($cAbility) || empty($pApperance) || empty($cSkils) ||
+            empty($bKnowledge)){
+                echo "<p>Please fill out all fields.</p>";
+                ++$formErrorCount;
+            }if($formErrorCount == 0){
+                $DBConnect = connectDB($hostname,$username,$password);
+                if($DBConnect){
+                    if(selectDB($DBConnect,$DBName)){
+                        if(tablecreate($DBConnect,$DBName)){
+                            echo "Everything is working right";
+                        }
+                    }
+                    mysqli_close($DBConnect);
+                }
+            }
         }
-    }
     
-main();
 
 
 // if ($showForm){
@@ -92,12 +134,10 @@ main();
     <input type="text" name="position" value="<?php echo $position; ?>"></p>
     <p><strong>Interview date: </strong><br>
     <input type="number" name="intvDate" value="<?php echo $intvDate; ?>"></p>
-    </form>
     <hr>
     <h2>Candidate Info</h2>
     <p>When doing the communication abilities, professional apperance, computer skills, or business knowledge base data input</p>
     <p>on a scale of 1-10. 1=Terrible 10=Excellent</p>
-    <form action="CandidateInterview.php" method="post">
     <p><strong>First Name:</strong><br>
     <input type="text" name="firstcName" value="<?php echo $firstcName; ?>"></p>
     <p><strong>Last Name:</strong><br>
